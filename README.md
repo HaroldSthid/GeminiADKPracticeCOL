@@ -41,28 +41,33 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
 
 ## 🚀 Primeiros Passos (Getting Started)
 
-1.  **Clone este Repositório:**
-  ```bash
+[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/NOME_DO_SEU_NOTEBOOK_AQUI.ipynb) 
+<!-- ^^^ SUBSTITUA 'NOME_DO_SEU_NOTEBOOK_AQUI.ipynb' PELO NOME REAL DO SEU ARQUIVO .ipynb ^^^ -->
+<!-- E garanta que a branch é 'main' ou a correta -->
+
+1.  **Clonar este Repositório:**
+    ```bash
     git clone https://github.com/HaroldSthid/GeminiADKPracticeCOL.git
     cd GeminiADKPracticeCOL
     ```
 2.  **Abra no Google Colab:**
-    *   Faça o upload do arquivo `.ipynb` principal para o Google Colab.
+    *   Você pode clicar no botão "Abrir no Colab" acima.
+    *   Ou, após clonar, faça o upload do arquivo `.ipynb` principal do projeto para o Google Colab.
 3.  **Configure suas API Keys (Configure Your API Keys):**
     *   **Google Gemini API Key:**
         *   Obtenha sua chave no [Google AI Studio](https://aistudio.google.com/app/apikey).
-        *   No Colab, vá em "Secrets" (ícone de chave na barra lateral esquerda) e adicione um novo segredo chamado `GOOGLE_API_KEY_SECONDARY` (ou o nome que você usou no script) com o valor da sua chave. Certifique-se de que o acesso ao notebook está ativado.
+        *   No Colab, vá em "Secrets" (ícone de chave na barra lateral esquerda) e adicione um novo segredo chamado `GOOGLE_API_KEY_SECONDARY` (ou o nome que você usou no script, como `GOOGLE_API_KEY` se preferir) com o valor da sua chave. Certifique-se de que o acesso ao notebook está ativado.
     *   **LangSmith API Key (Opcional, para Observabilidade):**
         *   Crie uma conta e uma API Key (Personal Access Token) no [LangSmith](https://smith.langchain.com/).
         *   No Colab, adicione um segredo chamado `LANGSMITH_API_KEY_FAMILY_PROJECT` (ou o nome que você usou) com o valor da sua chave LangSmith.
-        *   Configure as variáveis de ambiente `LANGCHAIN_PROJECT` no script conforme desejar.
+        *   Configure a variável de ambiente `LANGCHAIN_PROJECT` no script com o nome do projeto que você deseja ver no LangSmith (ex: `ADK_Family_Routine_Optimizer_V1`).
 4.  **Execute os Passos do Notebook:**
     *   Siga as células do notebook (`.ipynb`) em ordem. O script instalará as dependências (`google-generativeai`, `google-adk`, `langsmith`), configurará os agentes e executará o pipeline.
     *   Você será solicitado a fornecer algumas informações, como o idioma de saída desejado e a que horas seu filho(a) acordou.
 
 ## 🛠️ Estrutura do Código (Code Structure Overview)
 
-O notebook está organizado nos seguintes passos principais:
+O notebook (`.ipynb`) está organizado nos seguintes passos principais:
 
 *   **PASSO 1-2:** Instalação das bibliotecas necessárias.
 *   **PASSO 3:** Importações de módulos.
