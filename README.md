@@ -43,8 +43,8 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
 
 1.  **Clone este Repositório:**
     ```bash
-    git clone (https://github.com/HaroldSthid/GeminiADKPracticeCOL.git)
-    cd [NOME_DO_SEU_REPOSITORIO]
+    git clone https://github.com/HaroldSthid/GeminiADKPracticeCOL.git
+    cd [GeminiADKPracticeCOL]
     ```
 2.  **Abra no Google Colab:**
     *   Faça o upload do arquivo `.ipynb` principal para o Google Colab.
