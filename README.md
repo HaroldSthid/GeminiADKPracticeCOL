@@ -43,7 +43,7 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
 
 [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/NOME_DO_SEU_NOTEBOOK_AQUI.ipynb) 
 <!-- ^^^ SUBSTITUA 'NOME_DO_SEU_NOTEBOOK_AQUI.ipynb' PELO NOME REAL DO SEU ARQUIVO .ipynb ^^^ -->
-<!-- E garanta que a branch é 'main' ou a correta -->
+<!-- E garanta que a branch é 'main' ou a correta (ex: main, master) -->
 
 1.  **Clonar este Repositório:**
     ```bash
@@ -51,15 +51,15 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
     cd GeminiADKPracticeCOL
     ```
 2.  **Abra no Google Colab:**
-    *   Você pode clicar no botão "Abrir no Colab" acima.
-    *   Ou, após clonar, faça o upload do arquivo `.ipynb` principal do projeto para o Google Colab.
+    *   Você pode clicar no botão "Abrir no Colab" acima (depois de substituir o nome do notebook no link).
+    *   Ou, após clonar o repositório, faça o upload do arquivo `.ipynb` principal do projeto (que você colocou no repositório) para o Google Colab.
 3.  **Configure suas API Keys (Configure Your API Keys):**
     *   **Google Gemini API Key:**
         *   Obtenha sua chave no [Google AI Studio](https://aistudio.google.com/app/apikey).
-        *   No Colab, vá em "Secrets" (ícone de chave na barra lateral esquerda) e adicione um novo segredo chamado `GOOGLE_API_KEY_SECONDARY` (ou o nome que você usou no script, como `GOOGLE_API_KEY` se preferir) com o valor da sua chave. Certifique-se de que o acesso ao notebook está ativado.
+        *   No Colab, vá em "Secrets" (ícone de chave na barra lateral esquerda) e adicione um novo segredo chamado `GOOGLE_API_KEY_SECONDARY` (ou o nome exato que você usou no script, como `GOOGLE_API_KEY` se preferir) com o valor da sua chave. Certifique-se de que o acesso ao notebook está ativado para este segredo.
     *   **LangSmith API Key (Opcional, para Observabilidade):**
         *   Crie uma conta e uma API Key (Personal Access Token) no [LangSmith](https://smith.langchain.com/).
-        *   No Colab, adicione um segredo chamado `LANGSMITH_API_KEY_FAMILY_PROJECT` (ou o nome que você usou) com o valor da sua chave LangSmith.
+        *   No Colab, adicione um segredo chamado `LANGSMITH_API_KEY_FAMILY_PROJECT` (ou o nome exato que você usou no script) com o valor da sua chave LangSmith. Ative o acesso ao notebook para este segredo.
         *   Configure a variável de ambiente `LANGCHAIN_PROJECT` no script com o nome do projeto que você deseja ver no LangSmith (ex: `ADK_Family_Routine_Optimizer_V1`).
 4.  **Execute os Passos do Notebook:**
     *   Siga as células do notebook (`.ipynb`) em ordem. O script instalará as dependências (`google-generativeai`, `google-adk`, `langsmith`), configurará os agentes e executará o pipeline.
@@ -77,30 +77,115 @@ O notebook (`.ipynb`) está organizado nos seguintes passos principais:
 *   **PASSO 7:** Definição dos 4 Agentes Principais (`define_routine_planner_agent`, `define_meal_planner_agent`, `define_activity_coordinator_agent`, `define_progress_coach_agent`). É aqui que a "personalidade" e as instruções de cada agente são moldadas!
 *   **PASSO 8:** Lógica Principal de Orquestração, onde os agentes são chamados em sequência, passando informações de um para o outro.
 
-## 💡 Hacks de Valor e Ideias para o Futuro (Value Hacks & Future Ideas)
+## ⚙️ Como o Sistema Opera: Um Exemplo Prático (How the System Operates: A Practical Example)
 
-Este projeto é um ponto de partida. Acredito que ele tem um potencial enorme!
+Vamos imaginar um cenário típico:
 
-*   **Personalização Profunda dos Prompts:** A "mágica" acontece nas `instructions` de cada agente. Experimente, refine e adapte-as à dinâmica única da sua família!
-*   **Integração com Calendários:** Conectar o `AgenteRutina` com o Google Calendar ou similar.
-*   **Agente Orquestrador Inteligente:** Atualmente, a orquestração é sequencial. Uma versão Pro poderia ter um quinto agente, o "Maestro da Família", que decide dinamicamente qual agente chamar com base em inputs em tempo real ou eventos.
-*   **Inputs Mais Ricos:**
-    *   Feedback por voz para a mãe.
-    *   Lista de compras gerada automaticamente pelo `AgenteAlimentacion` e enviada para um app.
-    *   `AgenteAtividades` usando computer vision para "ver" os brinquedos disponíveis (sonho alto!).
-*   **Interface Gráfica (UI):** Uma interface web simples com Streamlit ou Gradio para facilitar a interação da família.
-*   **Métricas de Bem-Estar:** O `AgenteCoach` poderia incorporar métricas mais objetivas de sono ou atividade (se houver dados de wearables, por exemplo).
+1.  **Início do Dia:** O sistema é iniciado (por exemplo, executando o notebook Colab).
+2.  **Inputs do Usuário:**
+    *   O sistema pergunta em qual idioma você prefere as saídas (Português ou Espanhol).
+        *   *Exemplo: Você escolhe `es-LA`.*
+    *   Pede o nome da mãe e do pai (para personalizar algumas saídas).
+        *   *Exemplo: Mãe: `Liss`, Pai: `Haroldo`.*
+    *   Pergunta a que horas a criança (Zoe) acordou.
+        *   *Exemplo: Você digita `8:00 AM`.*
+    *   *(Outros inputs como feedback do dia anterior, ingredientes disponíveis, etc., são atualmente simulados no script, mas poderiam ser interativos).*
+3.  **Execução dos Agentes em Cadeia:**
 
-## ❤️ Convite à Colaboração (Invitation to Collaborate)
+    *   **Etapa 1: Agente Planejador de Rotina Adaptativa (`AdaptiveRoutinePlanner`)**
+        *   **Entrada (para o agente):** Data atual, nome da criança, idade, nomes dos pais, feedback do dia anterior (simulado), hora que acordou hoje, idioma de saída (es-LA).
+        *   **Ação:** O agente processa essas informações e, usando o modelo Gemini, gera uma sugestão de rotina diária adaptada.
+        *   **Saída de Exemplo (em es-LA):**
+            ```
+            > Rutina Diaria para Zoe - Sábado, 17 de Mayo de 2025
+            > Tipo de Día: Tipo B (Energía Moderada)...
+            > 
+            > Hora de Despertar: 8:00 AM ☀️
+            > 
+            > Horarios: (...)
+            > 8:00 - 8:30 AM: Despertar y Tiempo de Conexión 🥰: ...
+            > 8:30 - 9:00 AM: Desayuno 🍓🍌: ...
+            > ... (restante da rotina detalhada) ...
+            > Nota: Este horario es una guía. Ajusta según las necesidades de Zoe.
+            ```
 
-Como mencionei, sou um desenvolvedor iniciante da Colômbia 🇨🇴, e este projeto é um trabalho de amor e aprendizado. Adoraria ver esta ideia crescer e se tornar ainda mais útil para outras famílias.
+    *   **Etapa 2: Agente Chef Nutricional (`NutritionalChefAssistant`)**
+        *   **Entrada:** Ingredientes disponíveis (simulados), preferências da família, necessidades da Zoe, nome da Zoe, idioma de saída (es-LA), modo de planejamento ("daily").
+        *   **Ação:** O agente gera um plano de refeições para o dia.
+        *   **Saída de Exemplo (em es-LA):**
+            ```
+            > NutriChefAI - Plan de comidas diario para hoy
+            > 
+            > Desayuno:
+            > *   Padres: Avena con plátano y nueces...
+            > *   Zoe: Papilla de avena con plátano machacado...
+            > ... (restante do plano de refeições) ...
+            ```
 
-Se você tem ideias, sugestões, encontrou um bug, ou quer contribuir com código:
+    *   **Etapa 3: Agente Coordenador de Atividades (`ActivityCoordinator`)**
+        *   **Entrada:** Recursos da casa (simulados), clima (simulado), disponibilidade do cuidador (simulada), nome e idade da Zoe, humor (simulado), idioma de saída (es-LA).
+        *   **Ação:** O agente sugere atividades de desenvolvimento.
+        *   **Saída de Exemplo (em es-LA):**
+            ```
+            > Sugestões de Atividades para Hoje:
+            > 
+            > 1.  **Construcción Libre con Bloques (Juego Autónomo):** Deja que Zoe explore...
+            >     *Beneficio: Desarrolla la creatividad...*
+            > 2.  **Dibujo Creativo (Con o sin Cuidador):** Ofrece a Zoe crayones...
+            > ... (restante das atividades sugeridas) ...
+            ```
+    *   **Etapa 4: Agente Coach de Progresso (`ProgressCoachEvaluator`)** (se ativado para execução diária/semanal)
+        *   **Entrada:** Logs semanais (simulados), feedback do cuidador (simulado), metas da família, nome da Zoe, idioma de saída (es-LA).
+        *   **Ação:** O agente analisa o progresso e oferece recomendações.
+        *   **Saída de Exemplo (em es-LA):**
+            ```
+            > Relatório Semanal e Recomendações
+            > 
+            > **Pontos Positivos da Semana:**
+            > *   Parabéns! Parece que Zoe se adaptou bem...
+            > **Pequenos Desafios e Observações:**
+            > *   As noites de terça e quinta foram um pouco mais agitadas...
+            > **Recomendações para a Próxima Semana:**
+            > 1.  **Rotina Noturna:** Considerem adicionar um banho morno...
+            ```
+4.  **Resultado Final:** O usuário (você, neste caso) recebe as saídas de cada agente, formatadas para fácil leitura, no idioma selecionado.
 
-*   Abra uma **Issue** para discutir suas ideias ou reportar problemas.
-*   Crie um **Pull Request** com suas melhorias.
-*   Compartilhe como você adaptou o sistema para a sua família!
+## 🌊 Fluxo de Orquestração do Sistema (System Orchestration Flow)
 
-Vamos juntos construir ferramentas que realmente façam a diferença no nosso dia a dia. Mesmo pequenos ajustes nos prompts ou novas ideias para os agentes são contribuições valiosísimas!
+O sistema opera através de uma **orquestração sequencial** dos agentes, onde a saída de um agente pode informar a entrada ou o contexto para os próximos. A lógica principal no notebook (PASSO 8) gerencia este fluxo:
 
----
+```mermaid
+graph LR
+    A[Input do Usuário (Tópico/Necessidade Inicial, Idioma)] --> B{PASSO 8: Orquestrador Principal};
+    B --> C(Instancia AgenteRutina com dados atuais);
+    C --> D{call_agent(AgenteRutina)};
+    D --> E[Rotina Diária Gerada];
+    B --> F(Instancia AgenteAlimentacion com dados atuais);
+    F --> G{call_agent(AgenteAlimentacion)};
+    G --> H[Plano de Refeições Gerado];
+    B --> I(Instancia AgenteActividades com dados atuais);
+    I --> J{call_agent(AgenteActividades)};
+    J --> K[Sugestões de Atividades Geradas];
+    B --> L(Instancia AgenteCoach com dados semanais);
+    L --> M{call_agent(AgenteCoach) - Opcional/Semanal};
+    M --> N[Relatório e Recomendações];
+    
+    E --> O((Output para Usuário));
+    H --> O;
+    K --> O;
+    N --> O;
+
+    subgraph "Observabilidade (LangSmith)"
+        D --> LS1[Trace: AgenteRutina];
+        G --> LS2[Trace: AgenteAlimentacion];
+        J --> LS3[Trace: AgenteActividades];
+        M --> LS4[Trace: AgenteCoach];
+    end
+
+    style A fill:#D5F5E3,stroke:#2ECC71
+    style B fill:#EBF5FB,stroke:#3498DB
+    style O fill:#FCF3CF,stroke:#F1C40F
+    style LS1 fill:#FDEDEC,stroke:#E74C3C
+    style LS2 fill:#FDEDEC,stroke:#E74C3C
+    style LS3 fill:#FDEDEC,stroke:#E74C3C
+    style LS4 fill:#FDEDEC,stroke:#E74C3C
