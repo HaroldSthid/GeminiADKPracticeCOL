@@ -43,7 +43,7 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
 
 1.  **Clone este Repositório:**
     ```bash
-    git clone [URL_DO_SEU_REPOSITORIO_AQUI](https://github.com/HaroldSthid/GeminiADKPracticeCOL.git)
+    git clone (https://github.com/HaroldSthid/GeminiADKPracticeCOL.git)
     cd [NOME_DO_SEU_REPOSITORIO]
     ```
 2.  **Abra no Google Colab:**
