@@ -42,7 +42,7 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
 ## 🚀 Primeiros Passos (Getting Started)
 
 [![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/NOME_DO_SEU_NOTEBOOK_AQUI.ipynb) 
-<!-- ^^^ SUBSTITUA 'NOME_DO_SEU_NOTEBOOK_AQUI.ipynb' PELO NOME REAL DO SEU ARQUIVO .ipynb ^^^ -->
+<!-- ^^^ SUBSTITUA 'NOME_DO_SEU_NOTEBOOK_AQUI.ipynb' PELO NOME REAL DO SEU ARQUIVO .ipynb NO SEU REPOSITÓRIO ^^^ -->
 <!-- E garanta que a branch é 'main' ou a correta (ex: main, master) -->
 
 1.  **Clonar este Repositório:**
@@ -51,7 +51,7 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
     cd GeminiADKPracticeCOL
     ```
 2.  **Abra no Google Colab:**
-    *   Você pode clicar no botão "Abrir no Colab" acima (depois de substituir o nome do notebook no link).
+    *   Você pode clicar no botão "Abrir no Colab" acima (depois de substituir o nome do notebook no link e garantir que o notebook está no repositório).
     *   Ou, após clonar o repositório, faça o upload do arquivo `.ipynb` principal do projeto (que você colocou no repositório) para o Google Colab.
 3.  **Configure suas API Keys (Configure Your API Keys):**
     *   **Google Gemini API Key:**
@@ -83,70 +83,153 @@ Vamos imaginar um cenário típico:
 
 1.  **Início do Dia:** O sistema é iniciado (por exemplo, executando o notebook Colab).
 2.  **Inputs do Usuário:**
-    *   O sistema pergunta em qual idioma você prefere as saídas (Português ou Espanhol).
-        *   *Exemplo: Você escolhe `es-LA`.*
-    *   Pede o nome da mãe e do pai (para personalizar algumas saídas).
+    *   O sistema pergunta em qual idioma você prefere as saídas.
+        *   *Exemplo: Você escolhe `pt-BR`.*
+    *   Pede o nome da mãe e do pai.
         *   *Exemplo: Mãe: `Liss`, Pai: `Haroldo`.*
     *   Pergunta a que horas a criança (Zoe) acordou.
         *   *Exemplo: Você digita `8:00 AM`.*
-    *   *(Outros inputs como feedback do dia anterior, ingredientes disponíveis, etc., são atualmente simulados no script, mas poderiam ser interativos).*
 3.  **Execução dos Agentes em Cadeia:**
 
     *   **Etapa 1: Agente Planejador de Rotina Adaptativa (`AdaptiveRoutinePlanner`)**
-        *   **Entrada (para o agente):** Data atual, nome da criança, idade, nomes dos pais, feedback do dia anterior (simulado), hora que acordou hoje, idioma de saída (es-LA).
+        *   **Entrada (para o agente):** Data atual, nome da criança, idade, nomes dos pais, feedback do dia anterior (simulado), hora que acordou hoje, idioma de saída (pt-BR).
         *   **Ação:** O agente processa essas informações e, usando o modelo Gemini, gera uma sugestão de rotina diária adaptada.
-        *   **Saída de Exemplo (em es-LA):**
+        *   **Saída de Exemplo (em pt-BR):**
             ```
-            > Rutina Diaria para Zoe - Sábado, 17 de Mayo de 2025
-            > Tipo de Día: Tipo B (Energía Moderada)...
+            > ## Rotina Diária para Zoe - Sábado, 17 de Maio de 2025 ☀️
+            > **Tipo de Dia:** Calmo e Conectado (ajustado pelo despertar um pouco mais cedo de Zoe ontem)
             > 
-            > Hora de Despertar: 8:00 AM ☀️
+            > **Hora que Acordou Hoje:** 8:00 AM
             > 
-            > Horarios: (...)
-            > 8:00 - 8:30 AM: Despertar y Tiempo de Conexión 🥰: ...
-            > 8:30 - 9:00 AM: Desayuno 🍓🍌: ...
-            > ... (restante da rotina detalhada) ...
-            > Nota: Este horario es una guía. Ajusta según las necesidades de Zoe.
+            > ---
+            > 
+            > **Manhã Mágica ✨**
+            > 
+            > *   **8:00 - 8:45 AM: Bom Dia, Mundo! 🥰**
+            >     *   Acolhimento carinhoso, abraços e sorrisos para começar o dia.
+            >     *   Amamentação (se Zoe pedir), seguida de um momento tranquilo juntos.
+            > *   **8:45 - 9:15 AM: Café da Manhã dos Campeões 🍓🍌**
+            >     *   Opções nutritivas e saborosas. Que tal uma papinha de aveia com frutas ou um pãozinho macio? Envolver Zoe na escolha (se possível) torna tudo mais divertido!
+            > *   **9:15 - 10:15 AM: Exploradores em Ação! 🎨🧩**
+            >     *   Atividade dirigida focada no desenvolvimento. Pode ser pintura com os dedos, montar blocos, ou ler um livro interativo. O importante é estimular a criatividade e a coordenação.
+            > *   **10:15 - 11:15 AM: Aventuras Solo da Zoe 🧸**
+            >     *   Tempo para brincadeira livre e independente. Deixe Zoe explorar seus brinquedos e seu espaço com segurança.
+            > 
+            > **Tarde Aconchegante 🧸**
+            > 
+            > *   **11:15 AM - 12:00 PM: Preparativos para o Almoço e Tetê (se quiser) 🤱**
+            >     *   Enquanto o almoço é preparado, Zoe pode brincar por perto ou ter um momento de amamentação.
+            > *   **12:00 PM - 12:45 PM: Delícias no Prato! 🥕🥦**
+            >     *   Almoço balanceado e saboroso. Legumes cozidinhos, uma proteína macia e um carboidrato do bem.
+            > *   **12:45 PM - 2:45 PM: Soninho Reparador 😴**
+            >     *   Soneca da tarde. Crie um ambiente calmo e escuro para um sono de qualidade. A duração pode variar, observe os sinais de Zoe.
+            > *   **2:45 PM - 3:15 PM: Despertar Suave 📖**
+            >     *   Atividade tranquila pós-soneca: ouvir música calma, ver um livro de figuras.
+            > *   **3:15 PM - 3:45 PM: Lanchinho da Tarde Gostoso 🍎**
+            >     *   Frutas picadas, iogurte natural ou um biscoitinho saudável.
+            > *   **3:45 PM - 4:45 PM: Expedição ao Ar Livre ou Descobertas em Casa! 🌳☀️**
+            >     *   Um passeio no parque, uma caminhada no quarteirão ou, se o tempo não ajudar, uma atividade sensorial em casa (caixa de texturas, por exemplo).
+            > 
+            > **Noite Serena 🌙**
+            > 
+            > *   **4:45 PM - 5:15 PM: Momento Relax 🧸🎶**
+            >     *   Brincadeiras mais calmas, preparando para o fim do dia.
+            > *   **5:15 PM - 5:45 PM: Jantar em Família 🍽️**
+            >     *   Uma refeição leve e nutritiva.
+            > *   **5:45 PM - 6:30 PM: Ritual do Soninho 🛁🧸📖**
+            >     *   Banho quentinho e relaxante, vestir o pijama, escovar os dentinhos (se já tiver), ler uma história calma, amamentar (se pedir).
+            > *   **6:30 PM (aproximadamente): Hora de Dormir e Sonhar Lindo! ✨**
+            > 
+            > ---
+            > *Lembrete carinhoso da Equipe IA: Este é um guia flexível. O mais importante é observar os sinais da Zoe e adaptar a rotina com amor e paciência. Tenham um dia maravilhoso!*
             ```
 
     *   **Etapa 2: Agente Chef Nutricional (`NutritionalChefAssistant`)**
-        *   **Entrada:** Ingredientes disponíveis (simulados), preferências da família, necessidades da Zoe, nome da Zoe, idioma de saída (es-LA), modo de planejamento ("daily").
-        *   **Ação:** O agente gera um plano de refeições para o dia.
-        *   **Saída de Exemplo (em es-LA):**
+        *   **Saída de Exemplo (em pt-BR):**
             ```
-            > NutriChefAI - Plan de comidas diario para hoy
+            > ## Plano de Refeições NutriChefAI para Hoje 🍲
+            > **Foco:** Praticidade, nutrição para todos e aproveitamento dos ingredientes disponíveis.
             > 
-            > Desayuno:
-            > *   Padres: Avena con plátano y nueces...
-            > *   Zoe: Papilla de avena con plátano machacado...
-            > ... (restante do plano de refeições) ...
+            > ---
+            > 
+            > **Café da Manhã (7:30 - 8:00 AM):**
+            > *   **Pais:** Iogurte natural com granola caseira e frutas vermelhas.
+            > *   **Zoe (2a 8m):** Mingau de aveia cozido com leite (materno ou fórmula/vegetal) e banana amassada. (Textura macia, rico em fibras).
+            >     *Considerar Amamentação:* Oferecer seio materno antes ou depois, conforme demanda de Zoe.
+            > 
+            > **Almoço (12:00 - 12:45 PM):**
+            > *   **Todos (Prato Comum Adaptado):** Frango cozido e desfiado com purê de batata doce e brócolis no vapor.
+            >     *   **Para Zoe:** Garantir que o frango esteja bem desfiado, o purê sem pedaços e o brócolis bem macio (pode ser amassadinho). Uma pitada de azeite no pratinho dela.
+            > 
+            > **Lanche da Tarde (3:30 - 4:00 PM):**
+            > *   **Zoe:** Palitos de maçã cozida (para amaciar) com uma fina camada de pasta de amendoim integral sem açúcar (verificar alergias!).
+            > *   **Pais:** Maçã in natura com um punhado de castanhas.
+            > 
+            > **Jantar (6:00 - 6:45 PM):**
+            > *   **Todos (Prato Comum Adaptado):** Sopa cremosa de abóbora com lentilha e espinafre, acompanhada de pão integral.
+            >     *   **Para Zoe:** Servir a sopa um pouco mais grossa (menos caldo) e morna. Verificar se os pedaços de pão são seguros para ela.
+            > 
+            > ---
+            > 
+            > **Dicas do Chef:**
+            > *   **Hidratação Zoe:** Oferecer água filtrada para Zoe ao longo do dia, especialmente entre as refeições.
+            > *   **Aproveitamento:** Se sobrar frango do almoço, pode ser usado numa salada para os pais no dia seguinte.
+            > *   **Flexibilidade:** Sinta-se à vontade para trocar frutas e vegetais por outros que Zoe aceite bem e que estejam disponíveis!
+            > 
+            > *Bom apetite para toda a família!* 😋
             ```
 
     *   **Etapa 3: Agente Coordenador de Atividades (`ActivityCoordinator`)**
-        *   **Entrada:** Recursos da casa (simulados), clima (simulado), disponibilidade do cuidador (simulada), nome e idade da Zoe, humor (simulado), idioma de saída (es-LA).
-        *   **Ação:** O agente sugere atividades de desenvolvimento.
-        *   **Saída de Exemplo (em es-LA):**
+        *   **Saída de Exemplo (em pt-BR):**
             ```
-            > Sugestões de Atividades para Hoje:
+            > ## Sugestões de Atividades Divertidas para Zoe Hoje! 🎨🌳🧸
             > 
-            > 1.  **Construcción Libre con Bloques (Juego Autónomo):** Deja que Zoe explore...
-            >     *Beneficio: Desarrolla la creatividad...*
-            > 2.  **Dibujo Creativo (Con o sin Cuidador):** Ofrece a Zoe crayones...
-            > ... (restante das atividades sugeridas) ...
-            ```
-    *   **Etapa 4: Agente Coach de Progresso (`ProgressCoachEvaluator`)** (se ativado para execução diária/semanal)
-        *   **Entrada:** Logs semanais (simulados), feedback do cuidador (simulado), metas da família, nome da Zoe, idioma de saída (es-LA).
-        *   **Ação:** O agente analisa o progresso e oferece recomendações.
-        *   **Saída de Exemplo (em es-LA):**
-            ```
-            > Relatório Semanal e Recomendações
+            > Olá, família! Com base nos recursos disponíveis e no dia ensolarado, aqui vão algumas ideias para a Zoe (2a 8m):
             > 
-            > **Pontos Positivos da Semana:**
-            > *   Parabéns! Parece que Zoe se adaptou bem...
-            > **Pequenos Desafios e Observações:**
-            > *   As noites de terça e quinta foram um pouco mais agitadas...
-            > **Recomendações para a Próxima Semana:**
-            > 1.  **Rotina Noturna:** Considerem adicionar um banho morno...
+            > 1.  **Exploradores da Natureza no Quintal/Parque (Com Supervisão Ativa):** 🌿🐞
+            >     *   Se o tempo permitir e houver disponibilidade, uma caminhada leve para coletar folhas de diferentes formatos, observar formigas ou sentir a textura da grama. Levem uma lupinha de brinquedo, se tiverem!
+            >     *   *Benefício:* Contato com a natureza, exploração sensorial, desenvolvimento motor grosso.
+            > 
+            > 2.  **Torre de Blocos Desafiadora (Jogo Autônomo/Paralelo):** 🧱
+            >     *   Disponibilize os blocos de construção e incentive Zoe a fazer a torre mais alta que conseguir! A mamãe ou o papai podem construir ao lado, mostrando novas formas.
+            >     *   *Benefício:* Coordenação motora fina, noções de equilíbrio, paciência e criatividade.
+            > 
+            > 3.  **Mestres-Cucas Mirins (Atividade com Cuidador - Mamãe/Papai):** 🥣🥄
+            >     *   Enquanto preparam uma refeição simples (como amassar uma banana para o lanche), permitam que Zoe participe com utensílios seguros e ingredientes que ela possa manusear (ex: misturar frutas já picadas numa tigela).
+            >     *   *Benefício:* Desenvolvimento sensorial (tato, olfato), imitação, noções de processo e ajuda a criar uma relação positiva com os alimentos.
+            > 
+            > 4.  **Circuito de Almofadas e Obstáculos (Jogo Autônomo/Com Estímulo):** 🤸‍♀️
+            >     *   Crie um pequeno circuito seguro na sala com almofadas para escalar, um túnel de tecido (se tiver) ou cadeiras para passar por baixo.
+            >     *   *Benefício:* Desenvolvimento motor grosso, planejamento motor, diversão e gasto de energia.
+            > 
+            > 5.  **Momento Leitura Interativa com Escolha (Autonomia + Conexão):** 📚❤️
+            >     *   Ofereça à Zoe dois livros e deixe-a ESCOLHER qual ela quer ler com você. Façam vozes, explorem as figuras juntos.
+            >     *   *Benefício:* Estímulo à linguagem, vínculo afetivo e prática da tomada de decisão.
+            > 
+            > ---
+            > *Lembrete da PlaySpark IA: Adapte as atividades ao humor e interesse da Zoe. O objetivo é se divertir e aprender juntos!*
+            ```
+    *   **Etapa 4: Agente Coach de Progresso (`ProgressCoachEvaluator`)** (se ativado para execução)
+        *   **Saída de Exemplo (em pt-BR):**
+            ```
+            > ## Relatório Semanal e Recomendações do GrowthGuideAI 📊💡
+            > 
+            > Olá Haroldo e Liss! Analisei os registros e o feedback desta semana para a rotina da Zoe. Aqui estão alguns pontos:
+            > 
+            > **🌟 Conquistas da Semana:**
+            > *   **Adaptação à Soneca:** Fantástico ver que Zoe tem conseguido tirar sonecas mais regulares à tarde, especialmente quando o ritual pré-soneca foi consistente! Isso é um grande avanço.
+            > *   **Engajamento nas Atividades:** O feedback sobre o "Circuito de Almofadas" foi muito positivo! Zoe parece adorar atividades que envolvem movimento e exploração física.
+            > 
+            > **🤔 Pontos de Atenção e Oportunidades:**
+            > *   **Transição Pós-Parque:** Notei que, em alguns dias, a transição após o passeio da tarde para uma atividade mais calma em casa foi um pouco desafiadora, resultando em alguma irritabilidade.
+            > *   **Variedade no Café da Manhã:** O mingau de aveia é ótimo, mas talvez variar um pouco mais o café da manhã de Zoe possa aumentar o interesse e a ingestão de diferentes nutrientes.
+            > 
+            > **🚀 Recomendações para a Próxima Semana:**
+            > 1.  **Pós-Parque Zen:** Experimentem introduzir uma "atividade de desaceleração" logo ao chegar do parque. Pode ser algo simples como lavar as mãos cantando uma música calma, oferecer um copo d'água e sentar para ver um livro por 5-10 minutos antes de propor a próxima atividade interna.
+            > 2.  **Aventura no Café da Manhã:** Que tal pedir ao Agente Chef Nutricional para sugerir 2-3 opções diferentes de café da manhã para Zoe para a semana? Podem incluir panquequinhas de banana, frutas com iogurte e granola fininha, ou ovos mexidos macios.
+            > 3.  **Pequeno Passo para Delegação:** Comecem a anotar (num caderninho ou app simples) 2-3 coisas que realmente acalmam Zoe quando ela está chateada ou com sono (ex: música específica, tipo de abraço, naninha preferida). Isso será ouro para um futuro cuidador!
+            > 
+            > Vocês estão fazendo um trabalho incrível como pais e empreendedores! Lembrem-se que a consistência flexível é a chave. Contem comigo para o que precisarem!
             ```
 4.  **Resultado Final:** O usuário (você, neste caso) recebe as saídas de cada agente, formatadas para fácil leitura, no idioma selecionado.
 
@@ -156,30 +239,30 @@ O sistema opera através de uma **orquestração sequencial** dos agentes, onde 
 
 ```mermaid
 graph LR
-    A[Input do Usuário (Tópico/Necessidade Inicial, Idioma)] --> B{PASSO 8: Orquestrador Principal};
-    B --> C(Instancia AgenteRutina com dados atuais);
-    C --> D{call_agent(AgenteRutina)};
-    D --> E[Rotina Diária Gerada];
-    B --> F(Instancia AgenteAlimentacion com dados atuais);
-    F --> G{call_agent(AgenteAlimentacion)};
-    G --> H[Plano de Refeições Gerado];
-    B --> I(Instancia AgenteActividades com dados atuais);
-    I --> J{call_agent(AgenteActividades)};
-    J --> K[Sugestões de Atividades Geradas];
-    B --> L(Instancia AgenteCoach com dados semanais);
-    L --> M{call_agent(AgenteCoach) - Opcional/Semanal};
-    M --> N[Relatório e Recomendações];
+    A["Input do Usuário (Tópico/Necessidade Inicial, Idioma)"] --> B{PASSO 8: Orquestrador Principal};
+    B --> C["Instancia AgenteRutina com dados atuais"];
+    C --> D{"call_agent(AgenteRutina)"};
+    D --> E["Rotina Diária Gerada"];
+    B --> F["Instancia AgenteAlimentacion com dados atuais"];
+    F --> G{"call_agent(AgenteAlimentacion)"};
+    G --> H["Plano de Refeições Gerado"];
+    B --> I["Instancia AgenteActividades com dados atuais"];
+    I --> J{"call_agent(AgenteActividades)"};
+    J --> K["Sugestões de Atividades Geradas"];
+    B --> L["Instancia AgenteCoach com dados semanais"];
+    L --> M{"call_agent(AgenteCoach) - Opcional/Semanal"};
+    M --> N["Relatório e Recomendações"];
     
-    E --> O((Output para Usuário));
+    E --> O(("Output para Usuário"));
     H --> O;
     K --> O;
     N --> O;
 
     subgraph "Observabilidade (LangSmith)"
-        D --> LS1[Trace: AgenteRutina];
-        G --> LS2[Trace: AgenteAlimentacion];
-        J --> LS3[Trace: AgenteActividades];
-        M --> LS4[Trace: AgenteCoach];
+        D --> LS1["Trace: AgenteRutina"];
+        G --> LS2["Trace: AgenteAlimentacion"];
+        J --> LS3["Trace: AgenteActividades"];
+        M --> LS4["Trace: AgenteCoach"];
     end
 
     style A fill:#D5F5E3,stroke:#2ECC71
