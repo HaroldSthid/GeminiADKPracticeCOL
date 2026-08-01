@@ -1,282 +1,300 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Agent System for Family Routine Automation | Demo</title>
-<meta name="description" content="Demo del sistema multiagente con Google ADK: automatización de rutinas familiares. Notebook de Colab interactivo y app embebida.">
-<style>
-  :root {
-    --bg: #0f172a;
-    --card: #1e293b;
-    --border: #334155;
-    --text: #e2e8f0;
-    --muted: #94a3b8;
-    --accent: #f97316;
-    --accent-2: #38bdf8;
-    --ok: #4ade80;
-  }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    line-height: 1.6;
-  }
-  header {
-    padding: 3rem 1.5rem 2rem;
-    text-align: center;
-    border-bottom: 1px solid var(--border);
-    background: radial-gradient(circle at top, #1e293b, #0f172a 70%);
-  }
-  header .badge {
-    display: inline-block;
-    background: rgba(56, 189, 248, 0.12);
-    color: var(--accent-2);
-    border: 1px solid rgba(56, 189, 248, 0.35);
-    padding: 0.25rem 0.75rem;
-    border-radius: 999px;
-    font-size: 0.8rem;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-  }
-  header h1 { font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 700; }
-  header h1 span { color: var(--accent); }
-  header p {
-    max-width: 720px;
-    margin: 1rem auto 0;
-    color: var(--muted);
-    font-size: 1.05rem;
-  }
-  main {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-  }
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin: 2rem 0 1rem;
-    font-size: 1.3rem;
-    font-weight: 600;
-  }
-  .section-title .num {
-    background: var(--accent);
-    color: #0f172a;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    font-weight: 700;
-  }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-  .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.25rem;
-  }
-  .card h3 { font-size: 1.05rem; margin-bottom: 0.5rem; }
-  .card p { color: var(--muted); font-size: 0.95rem; }
-  .card code {
-    background: #0f172a;
-    border: 1px solid var(--border);
-    padding: 0.1rem 0.4rem;
-    border-radius: 4px;
-    font-size: 0.85rem;
-    color: var(--accent-2);
-  }
-  .iframe-wrap {
-    position: relative;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    overflow: hidden;
-    background: #000;
-  }
-  .iframe-wrap iframe {
-    width: 100%;
-    height: 720px;
-    border: 0;
-    display: block;
-  }
-  .frame-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0.6rem 1rem;
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    font-size: 0.85rem;
-    color: var(--muted);
-  }
-  .frame-bar .dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--ok);
-    margin-right: 0.4rem;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-  .frame-bar a { color: var(--accent-2); text-decoration: none; }
-  .frame-bar a:hover { text-decoration: underline; }
-  .colab-box {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-  }
-  .colab-box .txt h3 { font-size: 1.05rem; }
-  .colab-box .txt p { color: var(--muted); font-size: 0.95rem; margin-top: 0.25rem; }
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: var(--accent);
-    color: #0f172a;
-    font-weight: 700;
-    padding: 0.7rem 1.4rem;
-    border-radius: 10px;
-    text-decoration: none;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-  }
-  .btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(249, 115, 22, 0.3); }
-  .btn.ghost {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
-  .btn.ghost:hover { box-shadow: none; border-color: var(--muted); }
-  .steps { list-style: none; }
-  .steps li {
-    display: flex;
-    gap: 0.9rem;
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 0.98rem;
-  }
-  .steps li:last-child { border-bottom: 0; }
-  .steps li .n {
-    flex-shrink: 0;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: rgba(56, 189, 248, 0.15);
-    color: var(--accent-2);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.85rem;
-    font-weight: 600;
-  }
-  footer {
-    text-align: center;
-    padding: 2rem 1.5rem;
-    border-top: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 0.9rem;
-  }
-  footer a { color: var(--accent-2); text-decoration: none; }
-</style>
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ADK Family Routine · Aprendé el flujo, sin miedo</title>
+    <meta
+      name="description"
+      content="Landing pública en español para recorrer el sistema multiagente con Google ADK paso a paso, con guía clara, tono beginner-friendly y acceso a Colab."
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="https://gradio.s3-us-west-2.amazonaws.com/6.20.0/gradio.js"></script>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="#inicio">
+          <span class="brand-badge">ADK Family Routine</span>
+          <span>Aprendé con baby steps</span>
+        </a>
+        <nav class="nav" aria-label="Navegación principal">
+          <a href="#equipo">El equipo</a>
+          <a href="#colab">Colab</a>
+          <a href="#ejecucion">Ejecución</a>
+          <a href="#demo">Demo en vivo</a>
+        </nav>
+      </div>
+    </header>
 
-<header>
-  <div class="badge">GOOGLE ADK · MULTI-AGENTE · GRADIO</div>
-  <h1>AI Agent System for <span>Family Routine</span> Automation</h1>
-  <p>
-    Demo de un sistema multiagente construido con Google Agent Development Kit (ADK):
-    planificación adaptativa de rutinas, alimentación, actividades y coaching de progreso
-    para familias con niños pequeños.
-  </p>
-</header>
+    <main id="inicio" class="wrap">
+      <section class="hero" aria-label="Presentación principal">
+        <article class="hero-card">
+          <span class="eyebrow">Guía pública · Google ADK · sin miedo</span>
+          <h1>Aprendé cómo un equipo de agentes organiza la rutina familiar.</h1>
+          <p class="lede">
+            Este sitio ordena el notebook como si contrataras un <strong>equipo de asistentes</strong>:
+            uno arma la rutina del día, otro piensa la comida, otro propone actividades sin pantalla y un
+            coach revisa el progreso de la semana.
+          </p>
 
-<main>
+          <div class="hero-actions">
+            <a class="btn primary" href="https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb">Abrir en Colab</a>
+            <a class="btn secondary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb">Ver notebook</a>
+            <a class="btn secondary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL">Ver repo</a>
+          </div>
 
-  <div class="section-title"><span class="num">1</span> ¿Qué hace?</div>
-  <div class="cards">
-    <div class="card">
-      <h3>Rutina adaptativa</h3>
-      <p>Genera un cronograma diario flexible según hora de despertar, feedback del día anterior y bloques de 30–60 minutos.</p>
-    </div>
-    <div class="card">
-      <h3>Nutrición</h3>
-      <p>Plan de comidas diario, semanal o de emergencia (3 ingredientes) considerando inventario, preferencias y necesidades del niño.</p>
-    </div>
-    <div class="card">
-      <h3>Actividades sin pantalla</h3>
-      <p>Coordinador de actividades lúdicas que fomentan autonomía y desarrollo, usando recursos disponibles en casa.</p>
-    </div>
-    <div class="card">
-      <h3>Coach de progreso</h3>
-      <p>Analiza los registros semanales, detecta patrones y recomienda ajustes con un tono positivo y empático.</p>
-    </div>
-  </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <strong>Primero rutina</strong>
+              <span>Un agente planifica el día según el feedback previo.</span>
+            </div>
+            <div class="stat">
+              <strong>Luego comida y juego</strong>
+              <span>Dos agentes más: menús y actividades sin pantalla.</span>
+            </div>
+            <div class="stat">
+              <strong>Al final el coach</strong>
+              <span>Revisa la semana y sugiere ajustes con tono positivo.</span>
+            </div>
+          </div>
+        </article>
 
-  <div class="section-title"><span class="num">2</span> Probar la app</div>
-  <div class="iframe-wrap">
-    <div class="frame-bar">
-      <span><span class="dot"></span>App en línea</span>
-      <a href="https://haroldsthid-adkmultiagentbydiplomadoai.hf.space" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a>
-    </div>
-    <iframe
-      src="https://haroldsthid-adkmultiagentbydiplomadoai.hf.space/?__theme=light"
-      title="ADK Multi-Agent Family Routine Demo"
-      loading="lazy"
-      allow="clipboard-write; microphone; camera"
-    ></iframe>
-  </div>
-  <p style="color: var(--muted); font-size: 0.9rem; margin-top: 0.6rem;">
-    Nota: si la app aparece inactiva, puede estar suspendida por inactividad. Al abrirla en una pestaña nueva se activa en unos segundos.
-  </p>
+        <aside class="side-card" aria-label="Mapa rápido de la ruta">
+          <h2>Mapa rápido</h2>
+          <div class="route">
+            <div class="route-item">
+              <div class="route-num">1</div>
+              <div>
+                <strong>Prepará el entorno</strong>
+                <p>Instalá dependencias, cargá tu API key de Google y no te apures.</p>
+              </div>
+            </div>
+            <div class="route-item">
+              <div class="route-num">2</div>
+              <div>
+                <strong>Definí los agentes</strong>
+                <p>Cuatro celdas claras: rutina, comida, actividades y coach.</p>
+              </div>
+            </div>
+            <div class="route-item">
+              <div class="route-num">3</div>
+              <div>
+                <strong>Orquestá el flujo</strong>
+                <p>ADK coordina a los agentes con un solo comando.</p>
+              </div>
+            </div>
+            <div class="route-item">
+              <div class="route-num">4</div>
+              <div>
+                <strong>Probá la demo</strong>
+                <p>Usá Gradio como interfaz final y evitá datos personales.</p>
+              </div>
+            </div>
+          </div>
+          <a class="btn primary" href="#demo">Ir a la demo</a>
+        </aside>
+      </section>
 
-  <div class="section-title"><span class="num">3</span> Probar y modificar en Colab</div>
-  <div class="colab-box">
-    <div class="txt">
-      <h3>Notebook interactivo</h3>
-      <p>
-        Abre el notebook completo, ejecútalo paso a paso y personalízalo
-        (nombres, edades, ingredientes, metas familiares). No requiere instalación local.
-      </p>
-    </div>
-    <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
-      <a class="btn" href="https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb" target="_blank" rel="noopener">▶ Abrir en Colab</a>
-      <a class="btn ghost" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL" target="_blank" rel="noopener">Ver código en GitHub</a>
-    </div>
-  </div>
+      <section id="equipo" class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">La idea central</span>
+            <h2 class="section-title">No es un agente: es un equipo que se coordina.</h2>
+          </div>
+          <p>
+            Google ADK une cuatro agentes especializados. Cada uno hace una sola cosa bien, y juntos cubren
+            el día completo de la familia sin que tengas que pegar nada.
+          </p>
+        </div>
 
-  <div class="section-title"><span class="num">4</span> Pasos para tu API key (una vez por cuenta)</div>
-  <ol class="steps">
-    <li><span class="n">1</span>Creá una API key en <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener" style="color: var(--accent-2);">Google AI Studio</a>.</li>
-    <li><span class="n">2</span>En el notebook de Colab, ejecutá la celda de configuración y pegá tu key cuando la pida (queda solo en tu sesión).</li>
-    <li><span class="n">3</span>Ejecutá las celdas de agentes y la de orquestación para ver el resultado completo.</li>
-    <li><span class="n">4</span>Probá el modo "quick" y el modo "full" en la interfaz Gradio del propio notebook.</li>
-  </ol>
+        <div class="grid-2">
+          <article class="info-card accent-red">
+            <h3>Rutina adaptativa</h3>
+            <p>
+              Arma el cronograma del día en bloques de 30–60 minutos. Ajusta según la hora de despertar real
+              y el feedback del día anterior, sin rigidez.
+            </p>
+          </article>
+          <article class="info-card accent-green">
+            <h3>Nutrición familiar</h3>
+            <p>
+              Propone menús diarios, semanales o de emergencia con 3 ingredientes, considerando inventario,
+              preferencias y necesidades del niño.
+            </p>
+          </article>
+          <article class="info-card accent-orange">
+            <h3>Actividades sin pantalla</h3>
+            <p>
+              Sugiere juegos que fomentan autonomía y desarrollo usando lo que hay en casa, adaptados al
+              humor y la energía del día.
+            </p>
+          </article>
+          <article class="info-card accent-blue">
+            <h3>Coach de progreso</h3>
+            <p>
+              Analiza los registros de la semana, detecta patrones y recomienda ajustes con un tono positivo,
+              empático y accionable.
+            </p>
+          </article>
+        </div>
+      </section>
 
-</main>
+      <section id="colab" class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Cómo usarlo</span>
+            <h2 class="section-title">Clics de arriba hacia abajo. Nada más.</h2>
+          </div>
+        </div>
 
-<footer>
-  Demo educativa para el diplomado de IA · <a href="https://github.com/HaroldSthid/GeminiADKPracticeCOL" target="_blank" rel="noopener">Repositorio</a> ·
-  <a href="https://huggingface.co/spaces/HaroldSthid/ADKMultiAgentbyDiplomadoAI" target="_blank" rel="noopener">Hugging Face Space</a>
-</footer>
+        <div class="grid-2">
+          <article class="diag-card">
+            <h3>Ruta de ejecución</h3>
+            <ol>
+              <li>Abri el notebook en Colab o GitHub.</li>
+              <li>Ejecutá las celdas de arriba hacia abajo.</li>
+              <li>Necesitás una API key de Google AI Studio; el notebook la carga de forma segura.</li>
+              <li>LangSmith es opcional: solo se activa si definís LANGSMITH_API_KEY.</li>
+              <li>Volvé a correr las celdas de agentes si el kernel se reinicia.</li>
+              <li>Terminá en la interfaz Gradio del notebook o en la demo embebida.</li>
+            </ol>
+          </article>
+          <article class="diag-card">
+            <h3>Reglas simples para no trabarte</h3>
+            <div class="pill-row" aria-label="Consejos rápidos">
+              <span class="pill">No hace falta programar de entrada</span>
+              <span class="pill">Gemini responde; LangSmith solo suma trazas</span>
+              <span class="pill">Primero tu API key</span>
+              <span class="pill">Después los agentes</span>
+              <span class="pill">Demo sin datos personales</span>
+            </div>
+            <div class="callout mt-md">
+              <strong>Tip:</strong>
+              <p class="mt-sm">
+                Pensalo como una escalera: cada celda te lleva un paso más arriba. Si algo falla, no reinicies
+                todo; retomá desde la celda que falló.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
 
-</body>
+      <section id="ejecucion" class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">El flujo de orquestación</span>
+            <h2 class="section-title">Un comando, cuatro respuestas coordinadas.</h2>
+          </div>
+          <p>
+            El notebook modela a los agentes y después los llama en orden: la rutina condiciona la comida y las
+            actividades, y el coach cierra con la revisión semanal.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="step-card accent-blue">
+            <h3>Selección automática de modelo</h3>
+            <p>
+              El notebook consulta los modelos Gemini disponibles para tu cuenta y elige el mejor por tipo
+              (Flash para rapidez, Pro para análisis profundo). Nada de modelos rotos.
+            </p>
+          </article>
+          <article class="step-card accent-red">
+            <h3>Modo quick y modo full</h3>
+            <p>
+              Quick responde con un solo agente al toque. Full recorre el equipo completo para una planificación
+              integral del día.
+            </p>
+          </article>
+          <article class="step-card accent-green">
+            <h3>Listo para presentar</h3>
+            <p>
+              La misma lógica corre en Colab y en la demo publicada. Lo que entendés en el notebook es lo que
+              ves en la app.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="demo" class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Demo en vivo</span>
+            <h2 class="section-title">El slot estable va en un hosted app, no en un share temporal.</h2>
+          </div>
+          <p>
+            Colab con <code>share=True</code> genera URLs temporales. Para Pages, el camino estable es una app
+            alojada, como Hugging Face Spaces. Este bloque ya apunta al Space público creado para el laboratorio.
+          </p>
+        </div>
+
+        <div class="demo-stack">
+          <article class="embed-card accent-blue">
+            <h3>Demo embebida</h3>
+            <p>
+              La demo vive en <code>HaroldSthid/ADKMultiAgentbyDiplomadoAI</code>. Si el Space está durmiendo o
+              todavía termina de construirse, abrilo directo desde el botón de respaldo.
+            </p>
+            <div class="gradio-frame mt-md">
+              <gradio-app space="HaroldSthid/ADKMultiAgentbyDiplomadoAI"></gradio-app>
+            </div>
+            <p class="mt-md">
+              <a class="btn secondary" href="https://huggingface.co/spaces/HaroldSthid/ADKMultiAgentbyDiplomadoAI">Abrir Space en HF</a>
+            </p>
+          </article>
+          <article class="info-card accent-green">
+            <h3>Qué debe mostrar la demo</h3>
+            <p>
+              Una interfaz simple para probar el equipo completo: rutina, comida, actividades y coach, con modos
+              quick y full.
+            </p>
+            <div class="pill-row mt-md">
+              <span class="pill">API key de Google requerida</span>
+              <span class="pill">ZeroGPU con límites diarios</span>
+              <span class="pill">Sin datos personales</span>
+            </div>
+            <div class="callout mt-md">
+              <strong>Importante:</strong>
+              <p class="mt-sm">
+                Si el embed tarda, no es un error del notebook: Hugging Face puede estar iniciando el Space.
+                En una cuenta gratuita, ZeroGPU tiene pocos requests por día.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Accesos directos</span>
+            <h2 class="section-title">Abrí, probá y seguí.</h2>
+          </div>
+        </div>
+
+        <div class="grid-3">
+          <article class="info-card accent-blue">
+            <h3>Notebook en GitHub</h3>
+            <p>Ideal para revisar el archivo y compartir la referencia exacta.</p>
+            <p class="mt-md"><a class="btn secondary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb">Abrir notebook</a></p>
+          </article>
+          <article class="info-card accent-green">
+            <h3>Colab</h3>
+            <p>La forma más cómoda de ejecutar el flujo completo sin instalar nada localmente.</p>
+            <p class="mt-md"><a class="btn primary" href="https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb">Abrir en Colab</a></p>
+          </article>
+          <article class="info-card accent-orange">
+            <h3>Repositorio</h3>
+            <p>Si querés ver el proyecto completo, este es el punto de entrada general.</p>
+            <p class="mt-md"><a class="btn secondary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL">Ir al repo</a></p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="footer">
+        Hecho para aprendizaje público, claro y progresivo. <a href="#demo">Ir a la demo</a>.
+      </footer>
+    </main>
+  </body>
 </html>
