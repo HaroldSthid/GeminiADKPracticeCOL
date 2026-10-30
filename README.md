@@ -10,6 +10,15 @@ Este projeto nasceu da minha própria necessidade de trazer mais calma e estrutu
 
 This project uses **Google's Agent Development Kit (ADK)** and **Gemini AI Models** to create a multi-agent system designed to help plan and optimize your family's weekly routine. It's built with love, a desire for more quality family time, and a beginner's passion for AI!
 
+## 🧭 Duas Versões do Mesmo Sistema (Two Versions of the Same System)
+
+| Versão | Onde roda | Ideal para |
+| --- | --- | --- |
+| **Colab** (notebook na raiz) | No navegador, sem instalar nada | Entender o fluxo passo a passo |
+| **ADK Web** ([`adk-web/`](adk-web/)) | No seu computador, com `adk web` | Ver os agentes decidirem: coordenador, ferramentas, memória SQLite e visor de eventos |
+
+A versão ADK Web acrescenta um **agente coordenador** que escolhe qual especialista chamar, ferramentas para **guardar e ler o registro diário** e uma **memória em SQLite** que o coach usa na revisão semanal. Instruções completas em [`adk-web/README.md`](adk-web/README.md). *(The ADK Web version adds a coordinator agent, tools, and SQLite memory; it runs locally because GitHub Pages can only host static sites.)*
+
 ## 🌟 O Que Este Sistema Faz? (What Does This System Do?)
 
 Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes aspectos da sua rotina familiar:
@@ -41,9 +50,7 @@ Imagine ter uma equipe de assistentes de IA dedicados a facilitar diferentes asp
 
 ## 🚀 Primeiros Passos (Getting Started)
 
-[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/NOME_DO_SEU_NOTEBOOK_AQUI.ipynb) 
-<!-- ^^^ SUBSTITUA 'NOME_DO_SEU_NOTEBOOK_AQUI.ipynb' PELO NOME REAL DO SEU ARQUIVO .ipynb NO SEU REPOSITÓRIO ^^^ -->
-<!-- E garanta que a branch é 'main' ou a correta (ex: main, master) -->
+[![Abrir no Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb)
 
 1.  **Clonar este Repositório:**
     ```bash
