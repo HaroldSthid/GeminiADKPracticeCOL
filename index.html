@@ -22,6 +22,7 @@
           <a href="#equipo">El equipo</a>
           <a href="#colab">Colab</a>
           <a href="#ejecucion">Ejecución</a>
+          <a href="#adk-web">ADK Web</a>
           <a href="#demo">Demo en vivo</a>
         </nav>
       </div>
@@ -41,6 +42,7 @@
           <div class="hero-actions">
             <a class="btn primary" href="https://colab.research.google.com/github/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb">Abrir en Colab</a>
             <a class="btn secondary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL/blob/main/AI%20Agent%20System%20for%20Family%20Routine%20Automation%20(ADK).ipynb">Ver notebook</a>
+            <a class="btn secondary" href="#adk-web">Versión ADK Web</a>
             <a class="btn secondary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL">Ver repo</a>
           </div>
 
@@ -215,6 +217,78 @@
             </p>
           </article>
         </div>
+      </section>
+
+      <section id="adk-web" class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">Segunda versión</span>
+            <h2 class="section-title">El mismo equipo, ahora con coordinador y memoria.</h2>
+          </div>
+          <p>
+            Además del notebook, el repo trae una versión como proyecto de Google ADK que corre en tu
+            computador con <code>adk web</code>: un chat para hablar con los agentes y un visor para ver cómo
+            deciden. Esta página no la puede alojar (Pages solo sirve archivos estáticos), así que cada persona
+            la corre con su propia clave de Gemini.
+          </p>
+        </div>
+
+        <div class="grid-3">
+          <article class="step-card accent-blue">
+            <h3>Agente coordinador</h3>
+            <p>
+              Recibe tu pedido y decide a quién llamar: el día completo recorre rutina, comida y actividades;
+              una pregunta de cocina va solo al chef.
+            </p>
+          </article>
+          <article class="step-card accent-green">
+            <h3>Herramientas</h3>
+            <p>
+              Dos funciones reales, <code>save_day_log</code> y <code>get_recent_logs</code>, más los
+              especialistas expuestos como herramientas del coordinador.
+            </p>
+          </article>
+          <article class="step-card accent-orange">
+            <h3>Memoria en SQLite</h3>
+            <p>
+              Lo que guardás hoy lo usa la rutina de mañana y la revisión semanal del coach, incluso en otra
+              sesión o con otro agente.
+            </p>
+          </article>
+        </div>
+
+        <div class="grid-2 mt-md">
+          <article class="diag-card">
+            <h3>Corrélo en 4 pasos</h3>
+            <pre><code>git clone https://github.com/HaroldSthid/GeminiADKPracticeCOL.git
+cd GeminiADKPracticeCOL/adk-web
+python -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+cp .env.example .env   # pegá tu GOOGLE_API_KEY
+adk web                # http://localhost:8000</code></pre>
+            <p class="mt-md">En Windows activá el entorno con <code>.venv\Scripts\Activate.ps1</code>.</p>
+          </article>
+          <article class="diag-card">
+            <h3>Qué probar en el chat</h3>
+            <ol>
+              <li>Elegí <code>family_coordinator</code> y pedí: "Organizá el día: despertó a las 6:40".</li>
+              <li>Preguntá: "¿Qué cocino con huevos y espinaca?" y mirá que llama a un solo agente.</li>
+              <li>Pedí: "Guardá el registro de hoy" con cómo fue el día.</li>
+              <li>En otra sesión, pedí "Planificá el día" y comprobá que recuerda lo de ayer.</li>
+            </ol>
+            <div class="callout mt-md">
+              <strong>Cuidá tu clave:</strong>
+              <p class="mt-sm">
+                Vive solo en tu archivo <code>.env</code>. Si la pegás en un chat o la subís por error,
+                revocala y creá otra.
+              </p>
+            </div>
+          </article>
+        </div>
+
+        <p class="mt-md">
+          <a class="btn primary" href="https://github.com/HaroldSthid/GeminiADKPracticeCOL/tree/main/adk-web">Ver la carpeta adk-web</a>
+        </p>
       </section>
 
       <section id="demo" class="section">

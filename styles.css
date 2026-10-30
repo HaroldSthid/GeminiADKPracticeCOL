@@ -405,6 +405,25 @@ code {
   background: rgba(255, 255, 255, 0.55);
 }
 
+pre {
+  margin: 0;
+  padding: 14px 16px;
+  overflow-x: auto;
+  border: 1.5px solid var(--text);
+  border-radius: 14px;
+  background: #111;
+  color: #fffaf0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+}
+
+pre code {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+}
+
 .pill-row {
   display: flex;
   flex-wrap: wrap;
