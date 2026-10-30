@@ -48,6 +48,10 @@ En `family_coordinator`, en este orden:
 
 Mira la pestaña de eventos: ahí se ven las llamadas a herramientas y el estado que viaja entre agentes.
 
+## Si ves `ReadError`
+
+Es un corte de red con Gemini, no un fallo de los agentes. `family_routine/model.py` define `RetryingGemini`, que reintenta hasta 3 veces cuando la conexión se cae antes de recibir respuesta (la opción `retry_options` de ADK no cubre este error). Si persiste, repite el mensaje en la misma sesión.
+
 ## Límites a tener presentes
 
 - La memoria es un diario ordenado por fecha, no memoria semántica.

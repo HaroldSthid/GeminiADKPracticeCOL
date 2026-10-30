@@ -5,9 +5,10 @@ from google.adk.agents.readonly_context import ReadonlyContext
 from google.adk.agents.sequential_agent import SequentialAgent
 
 from . import profile as p
+from .model import flash
 from .tools import get_recent_logs
 
-MODEL = "gemini-flash-latest"
+MODEL = flash()
 
 
 def routine_instruction(ctx: ReadonlyContext) -> str:

@@ -1,10 +1,11 @@
 from google.adk.agents.llm_agent import Agent
 
 from family_routine import profile as p
+from family_routine.model import flash
 from family_routine.tools import get_recent_logs
 
-# The notebook used a Pro model here; switch to "gemini-pro-latest" if your key has access.
-MODEL = "gemini-flash-latest"
+# The notebook used a Pro model here; swap flash() for a Pro model if your key has access.
+MODEL = flash()
 
 root_agent = Agent(
     name="family_coach",
