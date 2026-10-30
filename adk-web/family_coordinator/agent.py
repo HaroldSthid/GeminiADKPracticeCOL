@@ -4,9 +4,10 @@ from google.adk.tools.agent_tool import AgentTool
 from family_coach.agent import root_agent as coach
 from family_routine import profile as p
 from family_routine.agent import activity_coordinator, meal_planner, routine_planner
+from family_routine.model import flash
 from family_routine.tools import save_day_log
 
-MODEL = "gemini-flash-latest"
+MODEL = flash()
 
 # The coordinator decides which specialist to call; the specialists are exposed as tools.
 root_agent = Agent(
