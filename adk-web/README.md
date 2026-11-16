@@ -36,6 +36,13 @@ python -m pytest            # pruebas de las herramientas, sin clave
 adk web                     # abre http://localhost:8000 y elige family_coordinator
 ```
 
+**Si usas Windows**, antes de instalar ten en cuenta dos cosas que hacen fallar la instalación sin avisar:
+
+- **Clona en una carpeta de ruta corta**, por ejemplo `C:\taller`. En una carpeta muy anidada, `pip` falla con `WinError 206` porque las dependencias de Google traen archivos con nombres larguísimos.
+- **PowerShell bloquea `Activate.ps1` por defecto** ("la ejecución de scripts está deshabilitada"). Si eso pasa, no sigas con `pip install`: quedaría instalado en tu Python global. Comprueba que el entorno quedó activo con `python -c "import sys; print(sys.prefix)"` (debe terminar en `.venv`), o no actives nada y escribe `.venv\Scripts\python.exe` donde veas `python` y `.venv\Scripts\adk.exe` donde veas `adk`.
+
+¿Quieres llevarlo a un caso de empresa? Mira [`../workshop/ADAPTA_A_TU_EMPRESA.md`](../workshop/ADAPTA_A_TU_EMPRESA.md).
+
 ## Qué probar
 
 En `family_coordinator`, en este orden:
