@@ -4,7 +4,7 @@ Guía para quien sabe usar un repositorio de GitHub. Al terminar tendrás un pro
 
 Solo editas **un archivo**. No tocas el motor.
 
-> Si no programas, llena primero la hoja de trabajo de [`RETO_OPCION_A.md`](RETO_OPCION_A.md). Esa hoja es exactamente lo que se pide en el paso 2.
+> Si no programas, llena primero la hoja de trabajo de [`RETO_OPCION_A.md`](RETO_OPCION_A.md). Esa hoja es exactamente lo que se pide en el paso 2. Y si prefieres que lo escriba una IA de código, usa el prompt de [`PROMPT_PARA_IA_DE_CODIGO.md`](PROMPT_PARA_IA_DE_CODIGO.md).
 
 ---
 
