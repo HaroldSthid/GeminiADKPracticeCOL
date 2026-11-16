@@ -104,9 +104,9 @@ Cada persona o equipo elige un traspaso de la lista del bloque 1 y lo traduce a 
 
 **Decisión: se usa la opción A.** El material está en [`RETO_OPCION_A.md`](RETO_OPCION_A.md): guía de tiempos, hoja de trabajo para imprimir, preguntas de revisión entre equipos y un ejemplo resuelto.
 
-**Por qué no la B (nota para quien facilita):** hoy el código está atado a la familia. Los textos de `family_coordinator/agent.py` mencionan a `CHILD_NAME` y el registro diario guarda hora de despertar, siesta y ánimo. Hay dos formas de resolver el reto:
-- **Opción A, sin código nuevo:** los asistentes solo diseñan su traspaso en papel con la tabla de arriba y lo presentan. Es lo más seguro para un público no técnico.
-- **Opción B, con código:** preparar de antemano una variante de empresa, por ejemplo `adk-web/ops_coordinator/`, con otros textos y otros campos de bitácora. Requiere desarrollo previo, **[por decidir]**.
+**Para quien quiere llevárselo a su empresa:** quien sabe usar un repositorio sigue [`ADAPTA_A_TU_EMPRESA.md`](ADAPTA_A_TU_EMPRESA.md): copia una plantilla, edita un solo archivo y lo corre con `adk web` en unos 30 minutos.
+
+**Nota para quien facilita:** el demo de la familia sigue atado a su caso (`CHILD_NAME` y un diario de despertar, siesta y ánimo), así que durante el taller el reto se hace en papel. El código para llevarlo a una empresa ya existe aparte: `adk-web/handoff_kit/` es un motor genérico y `adk-web/ops_coordinator/` es la app que `adk web` lista, con el caso de empresa de ejemplo en `handoff_kit/domains/company_orders.py`. Eso es lo que usa quien sigue la guía técnica de arriba, fuera del tiempo del reto.
 
 ### Bloque 6 — Cierre (10 min)
 - Cada equipo cuenta en una frase: "El traspaso que atacaría es ____ y la bitácora guardaría ____".
@@ -136,7 +136,8 @@ Cada persona o equipo elige un traspaso de la lista del bloque 1 y lo traduce a 
 - [x] Preparar la base: vacía para la demo de memoria y sembrada solo para el coach (`python -m family_routine.demo_seed`, con `--reset` para vaciarla).
 - [x] Probar la revisión semanal con los datos sembrados y confirmar que el coach encuentra el patrón.
 - [ ] Antes del evento, correr `python -m family_routine.demo_seed --reset` para dejar `data/family.db` vacía.
-- [x] Decidir entre la opción A y la B del bloque 5: se usa la A.
+- [x] Decidir entre la opción A y la B del bloque 5: el reto del taller es en papel (A) y el código para empresas queda aparte en `handoff_kit/`.
+- [ ] Probar `ADAPTA_A_TU_EMPRESA.md` de principio a fin con una persona técnica en una máquina limpia, con un caso propio y con Gemini de verdad.
 - [ ] Imprimir la hoja de trabajo de `RETO_OPCION_A.md` (una por equipo) y probar el reto con 2 o 3 personas de prueba.
 - [ ] Grabar el video de respaldo del demo.
 - [ ] Probar el taller completo en una máquina limpia (Windows y macOS si aplica).
