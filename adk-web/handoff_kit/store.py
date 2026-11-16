@@ -7,7 +7,9 @@ from contextlib import closing
 from datetime import date
 from pathlib import Path
 
-DEFAULT_DB = Path(__file__).resolve().parents[1] / "data" / "handoff.db"
+from .domains import DEFAULT_DOMAIN
+
+DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS handoff_logs (
@@ -23,9 +25,19 @@ def _today() -> str:
     return date.today().isoformat()
 
 
+def db_path() -> Path:
+    """HANDOFF_DB if set, else data/handoff_<domain>.db so each case keeps its own diary.
+
+    Resolved on every call so tests (and users) can switch domain or point elsewhere.
+    """
+    custom = os.environ.get("HANDOFF_DB")
+    if custom:
+        return Path(custom)
+    return DATA_DIR / f"handoff_{os.environ.get('HANDOFF_DOMAIN') or DEFAULT_DOMAIN}.db"
+
+
 def _connect() -> sqlite3.Connection:
-    # Resolved on every call so tests (and users) can point HANDOFF_DB elsewhere.
-    path = Path(os.environ.get("HANDOFF_DB", DEFAULT_DB))
+    path = db_path()
     path.parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(path)
     conn.row_factory = sqlite3.Row

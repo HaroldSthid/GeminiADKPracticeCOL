@@ -83,6 +83,42 @@ def test_recent_days_on_empty_store():
     assert store.entries_for_recent_days(7) == []
 
 
+@pytest.fixture
+def default_location(tmp_path, monkeypatch):
+    """Use the default path logic (no HANDOFF_DB) inside a temporary data folder."""
+    monkeypatch.delenv("HANDOFF_DB", raising=False)
+    monkeypatch.setattr(store, "DATA_DIR", tmp_path)
+    return tmp_path
+
+
+def test_default_db_is_named_after_the_selected_domain(default_location, monkeypatch):
+    monkeypatch.setenv("HANDOFF_DOMAIN", "a_case")
+    assert store.db_path() == default_location / "handoff_a_case.db"
+
+
+def test_default_db_uses_the_default_domain_when_none_is_selected(default_location, monkeypatch):
+    monkeypatch.delenv("HANDOFF_DOMAIN", raising=False)
+    assert store.db_path() == default_location / "handoff_company_orders.db"
+
+
+def test_handoff_db_still_overrides_the_default_path(default_location, monkeypatch, tmp_path):
+    custom = tmp_path / "custom.db"
+    monkeypatch.setenv("HANDOFF_DB", str(custom))
+    monkeypatch.setenv("HANDOFF_DOMAIN", "a_case")
+    assert store.db_path() == custom
+
+
+def test_two_domains_do_not_share_their_logs(default_location, monkeypatch):
+    monkeypatch.setenv("HANDOFF_DOMAIN", "case_a")
+    store.save_entry("A-1", FIELDS, day="2026-01-01")
+
+    monkeypatch.setenv("HANDOFF_DOMAIN", "case_b")
+    assert store.entries_for_recent_days(7) == []
+
+    monkeypatch.setenv("HANDOFF_DOMAIN", "case_a")
+    assert [r["subject"] for r in store.entries_for_recent_days(7)] == ["A-1"]
+
+
 def test_reset_returns_deleted_count():
     store.save_entry("O-1", FIELDS, day="2026-01-01")
     store.save_entry("O-2", FIELDS, day="2026-01-01")

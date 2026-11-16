@@ -10,6 +10,7 @@ Existing logs are never overwritten and nothing is written for today, so the
 """
 
 import argparse
+import os
 from datetime import date, timedelta
 
 from . import store
@@ -33,11 +34,14 @@ def reset_logs() -> int:
     return store.reset_entries()
 
 
-def main() -> None:
-    parser = argparse.ArgumentParser(description="Seed or reset the demo diary.")
+def main(argv: list[str] | None = None) -> None:
+    parser = argparse.ArgumentParser(description="Seed or reset the demo diary of one domain.")
     parser.add_argument("--reset", action="store_true", help="delete all logs instead of seeding")
     parser.add_argument("--domain", default=None, help="domain module name (default: HANDOFF_DOMAIN or company_orders)")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+    if args.domain:
+        # The diary file is chosen from HANDOFF_DOMAIN, so --domain also selects that domain's diary.
+        os.environ["HANDOFF_DOMAIN"] = args.domain
     if args.reset:
         print(f"Deleted {reset_logs()} log(s). The diary is empty.")
     else:

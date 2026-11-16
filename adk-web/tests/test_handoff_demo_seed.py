@@ -3,7 +3,7 @@ from datetime import date, timedelta
 import pytest
 
 from handoff_kit import store
-from handoff_kit.demo_seed import reset_logs, seed_demo_logs
+from handoff_kit.demo_seed import main, reset_logs, seed_demo_logs
 from handoff_kit.domains import load_domain
 
 DOMAIN = load_domain("company_orders")
@@ -40,6 +40,21 @@ def test_seed_does_not_overwrite_existing():
     assert seed_demo_logs(DOMAIN, today=TODAY) == 4
     row = [r for r in store.recent_entries(10) if r["date"] == day][0]
     assert row["status"] == "real"
+
+
+def test_cli_domain_flag_selects_that_domains_own_diary(tmp_path, monkeypatch):
+    monkeypatch.delenv("HANDOFF_DB", raising=False)
+    monkeypatch.setattr(store, "DATA_DIR", tmp_path)
+    monkeypatch.setenv("HANDOFF_DOMAIN", "company_orders")  # restored after the test
+
+    main(["--domain", "_template"])
+
+    assert (tmp_path / "handoff__template.db").exists()
+    assert not (tmp_path / "handoff_company_orders.db").exists()
+    assert len(store.recent_entries(10)) == 5
+
+    main(["--reset", "--domain", "_template"])
+    assert store.recent_entries(10) == []
 
 
 def test_reset_reports_count():
