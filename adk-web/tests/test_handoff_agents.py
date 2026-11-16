@@ -100,6 +100,29 @@ def test_coordinator_saves_the_identifier_exactly_as_the_user_wrote_it(team):
     assert "change the case" in text
 
 
+def test_coordinator_saves_only_the_bare_identifier_without_the_label_word(team):
+    # Live failure: "ticket 520, cliente Ortiz" was saved as "ticket 520" while the seed uses "481".
+    coordinator, _ = team
+    text = coordinator.instruction
+    label = DOMAIN.subject_label
+    assert f'without the word "{label}"' in text
+    assert f'from "{label} 520" save only 520' in text
+
+
+def test_agents_never_name_a_person_team_or_area_the_company_did_not_mention(team):
+    # Live failure: the refund was routed to "the commercial/administrative area", which nobody said.
+    coordinator, _ = team
+    rule = "Never name a person, team or area that the company context and your instructions do not mention"
+    assert rule in coordinator.instruction
+    for stage in DOMAIN.stages:
+        assert rule in agent_tools(coordinator)[stage.key].instruction
+
+
+def test_coordinator_instruction_has_no_braces_that_adk_would_read_as_variables(team):
+    coordinator, _ = team
+    assert "{" not in coordinator.instruction and "}" not in coordinator.instruction
+
+
 def test_coordinator_instruction_mentions_every_stage_key(team):
     coordinator, coach = team
     for stage in DOMAIN.stages:

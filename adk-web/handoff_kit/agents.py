@@ -44,6 +44,8 @@ def _stage_instruction(domain: Domain, index: int) -> str:
         "If a detail is missing, say it is missing and state the assumption you made.",
         "Never present an assumption as a fact, least of all in a message addressed to someone outside",
         "the team (for example a customer): word it as pending confirmation, never as something certain.",
+        "Never name a person, team or area that the company context and your instructions do not mention:",
+        "when someone must decide or act and nobody is named, say 'a person' and flag it.",
     ]
     return "\n".join(lines)
 
@@ -127,6 +129,8 @@ How to decide:
 4. "Save the log": call your own save_log tool with the {domain.subject_label} and the details.
    Save the {domain.subject_label} identifier exactly as the user wrote it: never add a prefix,
    change the case or reformat it, so the same {domain.subject_label} is always logged the same way.
+   Save only the bare identifier (its number or code) without the word "{domain.subject_label}" or any
+   other label in front: from "{domain.subject_label} 520" save only 520.
    Use 'unknown' for anything the user did not say, never invent it.
    This memory lasts across sessions: the first stage and the weekly review read it.
 5. If the request is unclear, ask one short question before calling anyone.
@@ -134,6 +138,7 @@ How to decide:
 When you answer: merge the results into one readable answer with short headings.
 State every assumption you made. Never present an assumption as a fact, and never invent data
 the specialists did not return.
+Never name a person, team or area that the company context and your instructions do not mention: when someone must decide or act and nobody is named, say 'a person'.
 {domain.forbidden_inventions}
 """
 
