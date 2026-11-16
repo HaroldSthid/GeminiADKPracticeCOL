@@ -12,12 +12,37 @@ Solo editas **un archivo**. No tocas el motor.
 
 Necesitas Python 3.10 o superior y una clave gratuita de [Google AI Studio](https://aistudio.google.com/app/apikey).
 
+**En Windows, clona en una carpeta de ruta corta**, por ejemplo `C:\taller`. Las dependencias de Google traen archivos con rutas larguísimas y, en una carpeta muy anidada (como `Documentos\Mis proyectos\...`), `pip` falla con `WinError 206: el nombre del archivo o la extensión es demasiado largo`.
+
 ```bash
 git clone https://github.com/HaroldSthid/GeminiADKPracticeCOL.git
 cd GeminiADKPracticeCOL/adk-web
 python -m venv .venv
-# Windows (PowerShell):  .venv\Scripts\Activate.ps1
-# macOS/Linux:           source .venv/bin/activate
+```
+
+### Activa el entorno y comprueba que de verdad quedó activo
+
+```bash
+# macOS/Linux
+source .venv/bin/activate
+# Windows (PowerShell)
+.venv\Scripts\Activate.ps1
+```
+
+Comprueba que está activo antes de instalar nada. La ruta que imprime este comando debe terminar en `.venv`:
+
+```bash
+python -c "import sys; print(sys.prefix)"
+```
+
+**Si PowerShell dice que "la ejecución de scripts está deshabilitada"**, la activación falló y `python` sigue siendo el de todo el sistema. No instales nada así: las dependencias quedarían en tu Python global. Tienes dos salidas:
+
+- **No actives el entorno y usa su Python directamente.** En esta guía, donde veas `python` escribe `.venv\Scripts\python.exe`, y donde veas `adk` escribe `.venv\Scripts\adk.exe`. Funciona siempre, con o sin esa restricción.
+- O habilita los scripts una sola vez para tu usuario con `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` y vuelve a activar.
+
+### Instala y prueba
+
+```bash
 pip install -r requirements.txt
 # Windows: copy .env.example .env     macOS/Linux: cp .env.example .env
 # Abre .env y pega tu GOOGLE_API_KEY
@@ -132,6 +157,9 @@ Escribe estos tres mensajes, adaptados a tu caso. Abre la pestaña **Events** pa
 | El coach dice que no hay registros | Sembraste un caso y arrancaste el servidor con otro `HANDOFF_DOMAIN` | Usa el mismo nombre en la semilla y en `HANDOFF_DOMAIN` |
 | Tus cambios no aparecen | El servidor sigue con la versión vieja | Reinicia `adk web` |
 | El agente inventa un dato | `forbidden_inventions` es vago | Nómbralo con precisión: "Nunca inventes fechas de entrega ni montos" |
+| `WinError 206` o "nombre de archivo demasiado largo" al instalar | Clonaste en una carpeta de ruta muy larga | Clona de nuevo en una ruta corta como `C:\taller` y repite la instalación |
+| "La ejecución de scripts está deshabilitada" al activar el entorno | PowerShell bloquea `Activate.ps1` por defecto | Usa `.venv\Scripts\python.exe` directamente, como dice "Antes de empezar" |
+| `ModuleNotFoundError: No module named 'google'` | El entorno no tiene las dependencias: se instalaron en otro Python | Instala con `.venv\Scripts\python.exe -m pip install -r requirements.txt` |
 | `ReadError` al llamar a Gemini | Corte de red, no un fallo de los agentes | Repite el mensaje en la misma sesión |
 | Error de clave o cuota | La clave falta, está mal pegada o llegó a su límite gratuito | Revisa `.env`, revócala y crea otra si se expuso |
 
