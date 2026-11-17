@@ -29,6 +29,9 @@ def _stage_instruction(domain: Domain, index: int) -> str:
         lines += [
             "First call get_recent_logs with days=2 to learn what happened in the previous days.",
             "The user's message always overrides the saved logs.",
+            "If a saved log describes a similar case (same kind of request, same channel or the same lateness),",
+            "add one line to your handoff note that cites it with its identifier and date exactly as saved.",
+            "Never claim a similarity the saved logs do not show. If none is similar, add nothing.",
             "",
         ]
     for prev in previous:
@@ -136,6 +139,8 @@ How to decide:
 5. If the request is unclear, ask one short question before calling anyone.
 
 When you answer: merge the results into one readable answer with short headings.
+If a specialist cites a similar earlier case from the saved logs, keep that line in your answer
+with its identifier and date exactly as given. Never drop it and never add a similarity yourself.
 State every assumption you made. Never present an assumption as a fact, and never invent data
 the specialists did not return.
 Never name a person, team or area that the company context and your instructions do not mention: when someone must decide or act and nobody is named, say 'a person'.
